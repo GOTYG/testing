@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+ROOT=$(git rev-parse --show-toplevel)
+GODOT_VERSION="4.3-stable"
+
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+    platform="linux_x86_64"
+    spec="linux.x86_64"
+    extension=""
+elif [[ $OSTYPE == "msys" ]]; then
+    platform="win64"
+    spec="win64.exe"
+    extension=".exe"
+else
+    echo "Unsupported platform"
+    exit 1
+fi
+
+dir=$(mktemp -d)
+zip="$dir/godot.zip"
+
+curl -o "$zip" -L "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_mono_${platform}.zip" 
+unzip -d "$ROOT/.bin/" "$zip" 
+cat << EOF > "$ROOT/.bin/godot"
+#!/usr/bin/env bash
+
+cd "$ROOT/.bin"
+exec "$ROOT/.bin/Godot_v${GODOT_VERSION}_mono_${platform}/Godot_v${GODOT_VERSION}_mono_${spec}"
+EOF
