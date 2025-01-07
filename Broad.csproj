@@ -16,6 +16,7 @@
         <PackageReference Include="MSTest.TestFramework" Version="3.7.0"/>
     </ItemGroup>
     <ItemGroup>
+      <Content Include=".github\workflows\ci.yml" />
       <Content Include="scripts\setup" />
       <Content Include="scripts\setup.cmd" />
     </ItemGroup>
