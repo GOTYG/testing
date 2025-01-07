@@ -2,6 +2,7 @@
 
 ROOT=$(git rev-parse --show-toplevel)
 GODOT_VERSION="4.3-stable"
+GDUNIT_VERSION="4.5.0"
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
     platform="linux_x86_64"
@@ -27,3 +28,9 @@ cat << EOF > "$ROOT/.bin/godot"
 cd "$ROOT/.bin"
 exec "$ROOT/.bin/Godot_v${GODOT_VERSION}_mono_${platform}/Godot_v${GODOT_VERSION}_mono_${spec}"
 EOF
+
+zip="$dir/gdunit.zip"
+curl -o "$zip" -L "https://github.com/MikeSchulze/gdUnit4/archive/refs/tags/v${GDUNIT_VERSION}.zip"
+unzip "%zip" -d "$dir/gdunit"
+mkdir "$ROOT/addons"
+move "$dir/gdunit/gdUnit4-${GDUNIT_VERSION}/addons/gdUnit4" "$ROOT/addons/gdUnit4"
