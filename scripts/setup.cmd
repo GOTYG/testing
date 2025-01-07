@@ -5,6 +5,7 @@ for /f "delims=" %%i in ('git rev-parse --show-toplevel') do set ROOT=%%i
 set ROOT=%ROOT:/=\%
 set GODOT_VERSION=4.3-stable
 set GDUNIT_VERSION=4.5.0
+set GODOT_BIN=%ROOT%\.bin\godot.cmd
 
 set dir=%TEMP%\godot
 mkdir %dir%
@@ -22,5 +23,8 @@ curl -o "%zip%" -L https://github.com/MikeSchulze/gdUnit4/archive/refs/tags/v%GD
 powershell -command "Expand-Archive -Path '%zip%' -DestinationPath '%dir%/gdunit'"
 mkdir %ROOT%\addons
 move %dir%\gdunit\gdUnit4-%GDUNIT_VERSION%\addons\gdUnit4 %ROOT%\addons\gdUnit4
+
+@REM Generates test adapter
+dotnet test
 
 endlocal

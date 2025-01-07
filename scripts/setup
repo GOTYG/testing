@@ -3,6 +3,7 @@
 ROOT=$(git rev-parse --show-toplevel)
 GODOT_VERSION="4.3-stable"
 GDUNIT_VERSION="4.5.0"
+GODOT_BIN="$ROOT/.bin/godot"
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
     platform="linux_x86_64"
@@ -34,3 +35,6 @@ curl -o "$zip" -L "https://github.com/MikeSchulze/gdUnit4/archive/refs/tags/v${G
 unzip "%zip" -d "$dir/gdunit"
 mkdir "$ROOT/addons"
 move "$dir/gdunit/gdUnit4-${GDUNIT_VERSION}/addons/gdUnit4" "$ROOT/addons/gdUnit4"
+
+# Generate test adapter
+dotnet test
